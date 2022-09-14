@@ -31,6 +31,7 @@ export default class App extends React.Component {
         el[dateProp] = !el[dateProp]
       }
     })
+
     this.setState({ data: newData })
   }
 
