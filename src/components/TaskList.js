@@ -10,20 +10,17 @@ const TaskList = (props) => {
     return (
       <li className={done ? 'completed' : null} key={id}>
         <Task
-          onActive={() => props.onActive(id)}
+          // onActive={() => props.onActive(id)}
           onCompleted={() => props.onCompleted(id)}
           onDeleted={() => props.onDeleted(id)}
+          done={done}
           {...otherData}
         ></Task>
       </li>
     )
   })
 
-  return (
-    <React.Fragment>
-      <ul className="todo-list">{items}</ul>
-    </React.Fragment>
-  )
+  return <ul className="todo-list">{items}</ul>
 }
 TaskList.defaultProps = {
   id: Math.round(Math.random() * Date.now()),
@@ -31,7 +28,7 @@ TaskList.defaultProps = {
   dataList: [],
   onDeleted: () => {},
   onCompleted: () => {},
-  onActive: () => {},
+  // onActive: () => {},
 }
 
 TaskList.propTypes = {
@@ -40,7 +37,7 @@ TaskList.propTypes = {
   dataList: PropTypes.array,
   onDeleted: PropTypes.func,
   onCompleted: PropTypes.func,
-  onActive: PropTypes.func,
+  // onActive: PropTypes.func,
 }
 
 export default TaskList

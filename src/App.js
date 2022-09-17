@@ -7,55 +7,68 @@ import NewTaskForm from './components/NewTaskForm'
 import TaskList from './components/TaskList'
 
 export default class App extends React.Component {
-  getData = (...arrLabels) =>
-    arrLabels.reduce((newArr, cur, idx) => {
-      newArr.push({
-        id: idx,
-        label: cur,
+  state = {
+    curFilter: 'all',
+    data: [
+      {
+        id: Date.now() - 31536000000,
+        label: 'learn React',
         active: false,
         done: false,
-        createTime: Date.now(),
-      })
-      return newArr
-    }, [])
-
-  state = {
-    data: this.getData('learn React', 'fly into space', 'drink milk'),
-    curFilter: 'all',
+        createTime: Date.now() - 31536000000, // год назад
+      },
+      {
+        id: Date.now() - 3600,
+        label: 'use React',
+        active: false,
+        done: true,
+        createTime: Date.now() - 3600, // год назад
+      },
+      {
+        id: Date.now() - 15768000000,
+        label: 'Like React',
+        active: false,
+        done: false,
+        createTime: Date.now() - 15768000000, // полгода назад
+      },
+    ],
   }
 
   changeDate = (id, dateProp) => {
-    const newData = JSON.parse(JSON.stringify(this.state.data))
-    newData.forEach((el) => {
-      if (el.id === id) {
-        el[dateProp] = !el[dateProp]
-      }
+    this.setState({
+      data: this.state.data.map((el) => {
+        if (el.id === id) {
+          return {
+            ...el,
+            [dateProp]: !el[dateProp],
+          }
+        }
+        return el
+      }),
     })
-
-    this.setState({ data: newData })
   }
 
   delItem = (id) => {
-    let newData = JSON.parse(JSON.stringify(this.state.data))
-    newData = newData.filter((el) => el.id !== id)
-    this.setState({ data: newData })
+    this.setState({ data: this.state.data.filter((el) => el.id !== id) })
   }
 
   addItem = (newLabel) => {
-    const newData = JSON.parse(JSON.stringify(this.state.data))
-    newData.push({
-      id: Date.now(),
-      label: newLabel,
-      active: false,
-      done: false,
-      createTime: Date.now(),
+    this.setState({
+      data: [
+        ...this.state.data,
+        {
+          id: Date.now(),
+          label: newLabel,
+          active: false,
+          done: false,
+          createTime: Date.now(),
+        },
+      ],
     })
-    this.setState({ data: newData })
   }
 
   delAllCompleted = () => {
-    const newData = JSON.parse(JSON.stringify(this.state.data))
-    this.setState({ data: newData.filter((e) => !e.done) })
+    this.setState({ data: this.state.data.filter((e) => !e.done) })
   }
 
   getFilteredData = () => {
@@ -63,7 +76,7 @@ export default class App extends React.Component {
       case 'all':
         return this.state.data
       case 'active':
-        return this.state.data.filter((el) => el.done === false)
+        return this.state.data.filter((el) => el.active === true)
       case 'completed':
         return this.state.data.filter((el) => el.done === true)
       default:
@@ -72,10 +85,7 @@ export default class App extends React.Component {
   }
 
   getActiveCount = (arr) => {
-    let sum = 0
-    arr.forEach((cur) => [(sum += cur.done === false ? 1 : 0)])
-    return sum
-    // return arr.reduce((sum, cur) => (sum += cur.done === false ? 1 : 0), 0);
+    return arr.reduce((sum, cur) => (sum += cur.done === false ? 1 : 0), 0)
   }
 
   changeFilter = (newFilter) => {
@@ -83,28 +93,26 @@ export default class App extends React.Component {
   }
 
   render() {
-    const taskList = (
-      <TaskList
-        onCompleted={(id) => this.changeDate(id, 'done')}
-        onActive={(id) => this.changeDate(id, 'active')}
-        onDeleted={(id) => this.delItem(id)}
-        dataList={this.getFilteredData()}
-      />
-    )
-
     return (
       <section className="todoapp">
         <NewTaskForm onAddItem={this.addItem} />
         <section className="main">
-          {this.state.data.length > 0 ? taskList : null}
-          {this.state.data.length > 0 ? (
+          {Boolean(this.state.data.length) && (
+            <TaskList
+              onCompleted={(id) => this.changeDate(id, 'done')}
+              // onActive={(id) => this.changeDate(id, 'active')}
+              onDeleted={(id) => this.delItem(id)}
+              dataList={this.getFilteredData()}
+            />
+          )}
+          {Boolean(this.state.data.length) && (
             <Footer
               onFiltered={(newFilter) => this.changeFilter(newFilter)}
               curFilter={this.state.curFilter}
               onDeleteCompleted={this.delAllCompleted}
               activeCount={this.getActiveCount(this.state.data)}
             />
-          ) : null}
+          )}
         </section>
       </section>
     )
