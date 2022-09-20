@@ -13,21 +13,21 @@ export default class App extends React.Component {
       {
         id: Date.now() - 31536000000,
         label: 'learn React',
-        active: false,
+        // active: false,
         done: false,
         createTime: Date.now() - 31536000000, // год назад
       },
       {
         id: Date.now() - 3600,
         label: 'use React',
-        active: false,
+        // active: false,
         done: true,
         createTime: Date.now() - 3600, // год назад
       },
       {
         id: Date.now() - 15768000000,
         label: 'Like React',
-        active: false,
+        // active: false,
         done: false,
         createTime: Date.now() - 15768000000, // полгода назад
       },
@@ -59,7 +59,7 @@ export default class App extends React.Component {
         {
           id: Date.now(),
           label: newLabel,
-          active: false,
+          // active: false,
           done: false,
           createTime: Date.now(),
         },
@@ -76,16 +76,17 @@ export default class App extends React.Component {
       case 'all':
         return this.state.data
       case 'active':
-        return this.state.data.filter((el) => el.active === true)
+        return this.state.data.filter((el) => !el.done)
       case 'completed':
-        return this.state.data.filter((el) => el.done === true)
+        return this.state.data.filter((el) => el.done)
       default:
         return this.state.data
     }
   }
 
   getActiveCount = (arr) => {
-    return arr.reduce((sum, cur) => (sum += cur.done === false ? 1 : 0), 0)
+    return arr.filter((e) => !e.done).length
+    // return arr.reduce((sum, cur) => (sum += cur.done === false ? 1 : 0), 0)
   }
 
   changeFilter = (newFilter) => {
