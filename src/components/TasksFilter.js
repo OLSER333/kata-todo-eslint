@@ -1,29 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-export default class TasksFilter extends React.Component {
-  render() {
-    const { curFilter, onFiltered } = this.props
-    const _filterBtns = ['all', 'active', 'completed']
+const TasksFilter = (props) => {
+  const { curFilter, onFiltered } = props
+  const _filterBtns = ['all', 'active', 'completed']
 
-    return (
-      <ul className="filters">
-        {_filterBtns.map((el) => {
-          return (
-            <li key={el}>
-              <button
-                onClick={() => onFiltered(el)}
-                className={curFilter === el ? 'selected' : null}
-              >
-                {el}
-              </button>
-            </li>
-          )
-        })}
-      </ul>
-    )
-  }
+  return (
+    <ul className="filters">
+      {_filterBtns.map((el) => {
+        return (
+          <li key={el}>
+            <button
+              onClick={() => onFiltered(el)}
+              className={curFilter === el ? 'selected' : null}
+            >
+              {el}
+            </button>
+          </li>
+        )
+      })}
+    </ul>
+  )
 }
+export default TasksFilter
 TasksFilter.defaultProps = {
   curFilter: 'all',
   // onFiltered: () => {}

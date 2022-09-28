@@ -15,6 +15,8 @@ export default class App extends React.Component {
         label: 'learn React',
         // active: false,
         done: false,
+
+        editing: false,
         createTime: Date.now() - 31536000000, // год назад
       },
       {
@@ -22,6 +24,7 @@ export default class App extends React.Component {
         label: 'use React',
         // active: false,
         done: true,
+        editing: false,
         createTime: Date.now() - 3600, // год назад
       },
       {
@@ -29,12 +32,14 @@ export default class App extends React.Component {
         label: 'Like React',
         // active: false,
         done: false,
+        editing: false,
+
         createTime: Date.now() - 15768000000, // полгода назад
       },
     ],
   }
 
-  changeDate = (id, dateProp) => {
+  changeData = (id, dateProp) => {
     this.setState({
       data: this.state.data.map((el) => {
         if (el.id === id) {
@@ -61,6 +66,7 @@ export default class App extends React.Component {
           label: newLabel,
           // active: false,
           done: false,
+          editing: false,
           createTime: Date.now(),
         },
       ],
@@ -93,6 +99,21 @@ export default class App extends React.Component {
     this.setState({ curFilter: newFilter })
   }
 
+  changeTaskLabel = (id, value) => {
+    this.setState({
+      data: this.state.data.map((el) => {
+        if (el.id === id) {
+          return {
+            ...el,
+            label: value,
+            editing: false,
+          }
+        }
+        return el
+      }),
+    })
+  }
+
   render() {
     return (
       <section className="todoapp">
@@ -100,8 +121,10 @@ export default class App extends React.Component {
         <section className="main">
           {Boolean(this.state.data.length) && (
             <TaskList
-              onCompleted={(id) => this.changeDate(id, 'done')}
-              // onActive={(id) => this.changeDate(id, 'active')}
+              onEdited={(id, value) => this.changeTaskLabel(id, value)}
+              toggleEditing={(id) => this.changeData(id, 'editing')}
+              onCompleted={(id) => this.changeData(id, 'done')}
+              // onActive={(id) => this.changeData(id, 'active')}
               onDeleted={(id) => this.delItem(id)}
               dataList={this.getFilteredData()}
             />

@@ -2,17 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 class NewTaskForm extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      formVal: '',
-    }
-    this.getFormVal = (e) => {
-      e.preventDefault()
-      if (this.state.formVal !== '') {
-        props.onAddItem(this.state.formVal)
-        this.setState({ formVal: '' })
-      }
+  state = {
+    formVal: '',
+  }
+
+  getFormVal = (e) => {
+    e.preventDefault()
+    if (this.state.formVal !== '') {
+      this.props.onAddItem(this.state.formVal)
+      this.setState({ formVal: '' })
     }
   }
 
