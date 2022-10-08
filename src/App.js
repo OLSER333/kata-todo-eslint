@@ -13,7 +13,7 @@ export default class App extends React.Component {
       {
         id: Date.now() - 31536000000,
         label: 'learn React',
-        initialTimerTime: 60000,
+        initialTimerTime: 120000,
         // active: false,
         done: false,
 
@@ -23,7 +23,7 @@ export default class App extends React.Component {
       {
         id: Date.now() - 3600,
         label: 'use React',
-        initialTimerTime: 60000,
+        initialTimerTime: 745000,
         // active: false,
         done: true,
         editing: false,

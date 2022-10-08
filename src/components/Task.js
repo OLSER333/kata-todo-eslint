@@ -11,10 +11,24 @@ export default class Task extends React.PureComponent {
     timerTime: this.props.initialTimerTime,
     timerStart: null,
     timerClassName:
-      this.props.initialTimerTime === 0
+      this.props.initialTimerTime === 0 || this.props.done
         ? 'timer__play timer__disable'
         : 'timer__play',
     curIntervalId: null,
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.done !== this.props.done) {
+      if (this.props.done) {
+        this.setState({
+          timerClassName: 'timer__play timer__disable',
+        })
+      } else if (!this.props.done) {
+        this.setState({
+          timerClassName: 'timer__play',
+        })
+      }
+    }
   }
 
   changeLabel = (e) => {
@@ -25,7 +39,7 @@ export default class Task extends React.PureComponent {
   }
 
   async playPausePressed() {
-    if (this.state.timerTime !== 0) {
+    if (this.state.timerTime !== 0 && !this.props.done) {
       await this.setState({ timerStart: Date.now() })
       if (this.state.timerTime !== 0) {
         await this.setState((curState) => {

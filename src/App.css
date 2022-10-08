@@ -443,7 +443,6 @@ html .clear-completed:active {
     /*color: #cc9a9a;*/
     margin: 0;
     /*transition: color 0.2s ease-out;*/
-    cursor: pointer;
 }
 
 .timer {
