@@ -37,6 +37,15 @@ body {
     font-weight: 300;
 }
 
+
+.todo-list li .icon-pause,
+.todo-list li .icon-play {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+
+
 :focus {
     outline: 0;
 }
@@ -104,7 +113,7 @@ body {
     padding: 16px 16px 16px 60px;
     border: none;
     background: rgba(0, 0, 0, 0.003);
-    box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
+    box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
 }
 
 .main {
@@ -152,8 +161,9 @@ body {
 
 .todo-list li {
     position: relative;
-    font-size: 24px;
     border-bottom: 1px solid #ededed;
+
+
 }
 
 .todo-list li:last-child {
@@ -229,6 +239,7 @@ body {
     transition: color 0.4s;
     font-weight: 400;
     color: #4d4d4d;
+    cursor: pointer;
 }
 
 .todo-list li.completed label .description {
@@ -387,7 +398,7 @@ html .clear-completed:active {
 	Hack to remove background from Mobile Safari.
 	Can't use it globally since it destroys checkboxes in Firefox
 */
-@media screen and (-webkit-min-device-pixel-ratio:0) {
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
     .toggle-all,
     .todo-list li .toggle {
         background: none;
@@ -406,4 +417,123 @@ html .clear-completed:active {
     .filters {
         bottom: 10px;
     }
+}
+
+/*//==================================================================*/
+
+.view {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 20px;
+
+}
+
+.view-buttons {
+    min-width: 60px;
+}
+
+.todo-list li .icon {
+    position: static;
+    /*width: 30px;*/
+    /*height: 40px;*/
+    /*font-size: 34px;*/
+    /*color: #cc9a9a;*/
+    margin: 0;
+    /*transition: color 0.2s ease-out;*/
+    cursor: pointer;
+}
+
+.timer {
+    display: flex;
+    min-width: 115px;
+    align-items: center;
+
+}
+
+.timer button {
+
+}
+
+
+.timer__play:after {
+    content: '▶';
+}
+
+.timer__pause:after {
+    content: '⏸';
+}
+
+.timer__disable {
+    opacity: 0.25;
+    cursor: unset;
+}
+
+.timer__pause {
+    cursor: pointer;
+}
+
+.timer__play {
+    cursor: pointer;
+}
+
+.timer__time {
+    cursor: pointer;
+    margin: 0;
+}
+
+
+.todo-list li label {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    padding-left: 60px;
+    font-size: 24px;
+}
+
+.icon.icon-edit {
+    transform: translateY(-5px);
+}
+
+/*//==================================================================*/
+.new-todo-form {
+    display: flex;
+    margin-bottom: 0;
+}
+
+.new-todo,
+.new-todo-form .new-todo-form__timer,
+.edit {
+    position: relative;
+    margin: 0;
+    width: 100%;
+    font-size: 24px;
+    font-family: inherit;
+    font-weight: inherit;
+    line-height: 1.4em;
+    color: inherit;
+    padding: 6px;
+    border: 1px solid #999;
+    box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.new-todo, .new-todo-form .new-todo-form__timer {
+    padding: 16px 16px 16px 60px;
+    border: none;
+    background: rgba(0, 0, 0, 0.003);
+    box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
+}
+
+.new-todo {
+    width: 70%;
+}
+
+.new-todo-form .new-todo-form__timer {
+    width: 15%;
+    padding-left: 16px;
 }

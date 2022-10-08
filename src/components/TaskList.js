@@ -24,6 +24,7 @@ const TaskList = (props) => {
               toggleEditing={() => props.toggleEditing(id)}
               onCompleted={() => props.onCompleted(id)}
               onDeleted={() => props.onDeleted(id)}
+              id={id}
               done={done}
               {...otherData}
             ></Task>

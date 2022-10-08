@@ -13,6 +13,7 @@ export default class App extends React.Component {
       {
         id: Date.now() - 31536000000,
         label: 'learn React',
+        initialTimerTime: 60000,
         // active: false,
         done: false,
 
@@ -22,6 +23,7 @@ export default class App extends React.Component {
       {
         id: Date.now() - 3600,
         label: 'use React',
+        initialTimerTime: 60000,
         // active: false,
         done: true,
         editing: false,
@@ -30,6 +32,7 @@ export default class App extends React.Component {
       {
         id: Date.now() - 15768000000,
         label: 'Like React',
+        initialTimerTime: 60000,
         // active: false,
         done: false,
         editing: false,
@@ -57,18 +60,19 @@ export default class App extends React.Component {
     this.setState({ data: this.state.data.filter((el) => el.id !== id) })
   }
 
-  addItem = (newLabel) => {
+  addItem = (newLabel, id, timerTime) => {
     this.setState({
       data: [
-        ...this.state.data,
         {
-          id: Date.now(),
+          id: id,
           label: newLabel,
           // active: false,
+          initialTimerTime: timerTime,
           done: false,
           editing: false,
           createTime: Date.now(),
         },
+        ...this.state.data,
       ],
     })
   }

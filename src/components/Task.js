@@ -2,9 +2,19 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { formatDistanceToNow } from 'date-fns'
 
-export default class Task extends React.Component {
+import { getTime } from '../utils/utils'
+
+export default class Task extends React.PureComponent {
   state = {
     labelValue: this.props.label,
+    timerRun: false,
+    timerTime: this.props.initialTimerTime,
+    timerStart: null,
+    timerClassName:
+      this.props.initialTimerTime === 0
+        ? 'timer__play timer__disable'
+        : 'timer__play',
+    curIntervalId: null,
   }
 
   changeLabel = (e) => {
@@ -12,6 +22,49 @@ export default class Task extends React.Component {
     if (this.state.labelValue !== '') {
       this.props.onEdited(this.state.labelValue)
     }
+  }
+
+  async playPausePressed() {
+    if (this.state.timerTime !== 0) {
+      await this.setState({ timerStart: Date.now() })
+      if (this.state.timerTime !== 0) {
+        await this.setState((curState) => {
+          return { timerRun: !curState.timerRun }
+        })
+      }
+      this.getTimerClassName()
+      // eslint-disable-next-line no-unused-vars
+      clearInterval(this.state.curIntervalId)
+      const curId = setInterval(() => {
+        if (!this.state.timerRun || this.state.timerTime === 1000) {
+          clearInterval(curId)
+          this.setState({ timerRun: false })
+          this.getTimerClassName()
+        }
+        if (this.state.timerRun) {
+          this.setState((curState) => {
+            let temp = curState.timerTime - (Date.now() - this.state.timerStart)
+            return {
+              timerTime: Math.round(temp / 1000) * 1000,
+            }
+          })
+        }
+        this.setState({ timerStart: Date.now() })
+      }, 1000)
+      this.setState({ curIntervalId: curId })
+    }
+  }
+
+  getTimerClassName() {
+    this.setState((curState) => {
+      if (curState.timerTime === 1000) {
+        return { timerClassName: 'timer__play timer__disable' }
+      } else {
+        return {
+          timerClassName: curState.timerRun ? 'timer__pause' : 'timer__play',
+        }
+      }
+    })
   }
 
   render() {
@@ -36,7 +89,10 @@ export default class Task extends React.Component {
             />
           </form>
         ) : (
-          <div className="view">
+          <div
+            className="view"
+            onClick={() => console.log('state', this.state)}
+          >
             <input
               onChange={() => onCompleted()}
               checked={done}
@@ -47,10 +103,32 @@ export default class Task extends React.Component {
               <span onClick={() => onCompleted()} className="description">
                 {label}
               </span>
-              <span className="created">{formatDistanceToNow(createTime)}</span>
             </label>
-            <button onClick={toggleEditing} className="icon icon-edit"></button>
-            <button onClick={onDeleted} className="icon icon-destroy"></button>
+
+            <div className="timer" onClick={(e) => this.playPausePressed(e)}>
+              <button
+                type={'button'}
+                className={this.state.timerClassName}
+              ></button>
+              <p className="timer__time">{getTime(this.state.timerTime)}</p>
+            </div>
+
+            <span
+              onClick={() => console.log('state task', this.state)}
+              className="created"
+            >
+              {formatDistanceToNow(createTime)}
+            </span>
+            <div className="view-buttons">
+              <button
+                onClick={toggleEditing}
+                className="icon icon-edit"
+              ></button>
+              <button
+                onClick={onDeleted}
+                className="icon icon-destroy"
+              ></button>
+            </div>
           </div>
         )}
       </>
