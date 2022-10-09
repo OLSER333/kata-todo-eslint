@@ -22,6 +22,7 @@ export default class Task extends React.PureComponent {
       if (this.props.done) {
         this.setState({
           timerClassName: 'timer__play timer__disable',
+          timerRun: false,
         })
       } else if (!this.props.done) {
         this.setState({
@@ -29,6 +30,7 @@ export default class Task extends React.PureComponent {
         })
       }
     }
+    // this.getTimerClassName()
   }
 
   changeLabel = (e) => {
@@ -71,7 +73,7 @@ export default class Task extends React.PureComponent {
 
   getTimerClassName() {
     this.setState((curState) => {
-      if (curState.timerTime === 1000) {
+      if (curState.timerTime === 1000 || this.props.done) {
         return { timerClassName: 'timer__play timer__disable' }
       } else {
         return {
