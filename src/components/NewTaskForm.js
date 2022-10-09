@@ -72,6 +72,9 @@ class NewTaskForm extends React.Component {
             value={this.state.formMin}
             onChange={(e) => this.setStateInput(e, 'min')}
             className="new-todo-form__timer"
+            step="1"
+            min="0"
+            max="99"
             placeholder="Min"
             type={'number'}
           />
@@ -79,6 +82,9 @@ class NewTaskForm extends React.Component {
             value={this.state.formSec}
             onChange={(e) => this.setStateInput(e, 'sec')}
             className="new-todo-form__timer"
+            step="1"
+            min="0"
+            max="99"
             placeholder="Sec"
             type={'number'}
           />

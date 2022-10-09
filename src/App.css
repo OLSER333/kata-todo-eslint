@@ -535,4 +535,13 @@ html .clear-completed:active {
 .new-todo-form .new-todo-form__timer {
     width: 15%;
     padding-left: 16px;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.new-todo-form .new-todo-form__timer::-webkit-outer-spin-button,
+.new-todo-form .new-todo-form__timer::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
