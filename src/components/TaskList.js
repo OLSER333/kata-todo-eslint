@@ -19,7 +19,6 @@ const TaskList = (props) => {
           <li className={getCurClass(done, editing)} key={id}>
             <Task
               editing={editing}
-              // onActive={() => props.onActive(id)}
               onEdited={(value) => props.onEdited(id, value)}
               toggleEditing={() => props.toggleEditing(id)}
               onCompleted={() => props.onCompleted(id)}
@@ -40,9 +39,6 @@ TaskList.defaultProps = {
   dataList: [],
   onDeleted: () => {},
   onCompleted: () => {},
-  // onEdited: () => {},
-  // toggleEditing: () => {},
-  // onActive: () => {},
 }
 
 TaskList.propTypes = {
@@ -53,7 +49,6 @@ TaskList.propTypes = {
   onCompleted: PropTypes.func,
   toggleEditing: PropTypes.func,
   onEdited: PropTypes.func,
-  // onActive: PropTypes.func,
 }
 
 export default TaskList

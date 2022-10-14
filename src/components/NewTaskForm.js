@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { v4 as uuidv4 } from 'uuid'
 
 class NewTaskForm extends React.Component {
   state = {
@@ -9,16 +10,14 @@ class NewTaskForm extends React.Component {
   }
 
   getFormVal = (e) => {
-    console.log('state', this.state)
     e.preventDefault()
     if (
       this.state.formVal !== '' &&
       this.state.formMin !== '' &&
       this.state.formSec !== ''
     ) {
-      const id = Date.now()
+      const id = uuidv4()
       const timerTime = this.state.formMin * 60000 + this.state.formSec * 1000
-      // localStorage.setItem(id.toString(), timerTime.toString())
       this.props.onAddItem(this.state.formVal, id, timerTime)
       this.setState({ formVal: '', formMin: '', formSec: '' })
     }
@@ -55,7 +54,7 @@ class NewTaskForm extends React.Component {
   render() {
     return (
       <header className="header">
-        <h1 onClick={() => console.log('state', this.state)}>todos</h1>
+        <h1>todos</h1>
         <form
           onSubmit={(e) => {
             this.getFormVal(e)
@@ -67,6 +66,7 @@ class NewTaskForm extends React.Component {
             onChange={(e) => this.setStateInput(e, 'case')}
             className="new-todo"
             placeholder="What needs to be done?"
+            required
           />
           <input
             value={this.state.formMin}
@@ -77,6 +77,7 @@ class NewTaskForm extends React.Component {
             max="99"
             placeholder="Min"
             type={'number'}
+            required
           />
           <input
             value={this.state.formSec}
@@ -87,6 +88,7 @@ class NewTaskForm extends React.Component {
             max="99"
             placeholder="Sec"
             type={'number'}
+            required
           />
           <input type="submit" style={{ display: 'none' }} />
         </form>

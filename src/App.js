@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { v4 as uuidv4 } from 'uuid'
 import './App.css'
 
 import Footer from './components/Footer'
@@ -11,33 +11,29 @@ export default class App extends React.Component {
     curFilter: 'all',
     data: [
       {
-        id: Date.now() - 31536000000,
+        id: uuidv4(),
         label: 'learn React',
         initialTimerTime: 120000,
-        // active: false,
         done: false,
 
         editing: false,
-        createTime: Date.now() - 31536000000, // год назад
+        createTime: new Date(2021, 9, 14), // год назад
       },
       {
-        id: Date.now() - 3600,
+        id: uuidv4(),
         label: 'use React',
         initialTimerTime: 745000,
-        // active: false,
         done: true,
         editing: false,
-        createTime: Date.now() - 3600, // год назад
+        createTime: Date.now(),
       },
       {
-        id: Date.now() - 15768000000,
+        id: uuidv4(),
         label: 'Like React',
         initialTimerTime: 60000,
-        // active: false,
         done: false,
         editing: false,
-
-        createTime: Date.now() - 15768000000, // полгода назад
+        createTime: new Date(2022, 3, 14), // полгода назад
       },
     ],
   }
@@ -66,7 +62,6 @@ export default class App extends React.Component {
         {
           id: id,
           label: newLabel,
-          // active: false,
           initialTimerTime: timerTime,
           done: false,
           editing: false,
@@ -128,7 +123,6 @@ export default class App extends React.Component {
               onEdited={(id, value) => this.changeTaskLabel(id, value)}
               toggleEditing={(id) => this.changeData(id, 'editing')}
               onCompleted={(id) => this.changeData(id, 'done')}
-              // onActive={(id) => this.changeData(id, 'active')}
               onDeleted={(id) => this.delItem(id)}
               dataList={this.getFilteredData()}
             />

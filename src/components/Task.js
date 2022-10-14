@@ -105,36 +105,29 @@ export default class Task extends React.PureComponent {
             />
           </form>
         ) : (
-          <div
-            className="view"
-            onClick={() => console.log('state', this.state)}
-          >
+          <div className="view">
             <input
               onChange={() => onCompleted()}
               checked={done}
               className="toggle"
               type="checkbox"
             />
-            <label>
+            <label className="view-label">
               <span onClick={() => onCompleted()} className="description">
                 {label}
               </span>
             </label>
 
-            <div className="timer" onClick={(e) => this.playPausePressed(e)}>
+            <div className="timer">
               <button
+                onClick={(e) => this.playPausePressed(e)}
                 type={'button'}
                 className={this.state.timerClassName}
               ></button>
               <p className="timer__time">{getTime(this.state.timerTime)}</p>
             </div>
 
-            <span
-              onClick={() => console.log('state task', this.state)}
-              className="created"
-            >
-              {formatDistanceToNow(createTime)}
-            </span>
+            <span className="created">{formatDistanceToNow(createTime)}</span>
             <div className="view-buttons">
               <button
                 onClick={toggleEditing}
@@ -155,10 +148,6 @@ Task.defaultProps = {
   label: '',
   active: false,
   done: false,
-  // onActive: () => {},
-  // onDeleted: () => {},
-  // onCompleted: () => {},
-  // toggleEditing: () => {},
   createTime: Date.now(),
 }
 
@@ -167,7 +156,6 @@ Task.propTypes = {
   editing: PropTypes.bool,
   active: PropTypes.bool,
   done: PropTypes.bool,
-  createTime: PropTypes.number,
   onActive: PropTypes.func,
   onDeleted: PropTypes.func,
   onCompleted: PropTypes.func,

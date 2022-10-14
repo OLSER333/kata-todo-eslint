@@ -25,7 +25,6 @@ const TasksFilter = (props) => {
 export default TasksFilter
 TasksFilter.defaultProps = {
   curFilter: 'all',
-  // onFiltered: () => {}
 }
 TasksFilter.propTypes = {
   curFilter: PropTypes.string,

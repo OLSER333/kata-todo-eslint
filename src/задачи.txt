@@ -1,0 +1,18 @@
+добавить проверку для Min Sec чтобы чисто цифры
+
+при завершении задачи нельзя запускать задачу
+
+чтобы таймер не уходил в минус
+
+
+
+
+
+
+            timerRun--------------------->    init: false (+)
+                                               if(!== 00:00)  onClick:  !curState + setInterv
+            -> timerClassName
+                    --
+            init + change кажд раз
+            при onClick
+

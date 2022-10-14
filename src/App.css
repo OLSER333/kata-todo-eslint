@@ -186,6 +186,8 @@ body {
     display: none;
 }
 
+
+
 .todo-list li .toggle {
     text-align: center;
     width: 40px;
@@ -230,6 +232,14 @@ body {
 .todo-list li label .created {
     font-size: 13px;
     color: gray;
+
+
+}
+
+.created {
+    text-align: center;
+    flex-basis: 16%;
+    width: 100px ;
 }
 
 .todo-list li label .description {
@@ -427,12 +437,18 @@ html .clear-completed:active {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-right: 20px;
+    gap: 10px;
+    /*padding-right: 20px;*/
 
+}
+
+.view-label {
+    flex-basis: 50%;
 }
 
 .view-buttons {
     min-width: 60px;
+    flex-basis: 16%;
 }
 
 .todo-list li .icon {
@@ -447,9 +463,8 @@ html .clear-completed:active {
 
 .timer {
     display: flex;
-    min-width: 115px;
     align-items: center;
-
+    width: 66px;
 }
 
 .timer button {
@@ -465,10 +480,7 @@ html .clear-completed:active {
     content: '⏸';
 }
 
-.timer__disable {
-    opacity: 0.25;
-    cursor: unset;
-}
+
 
 .timer__pause {
     cursor: pointer;
@@ -479,8 +491,17 @@ html .clear-completed:active {
 }
 
 .timer__time {
-    cursor: pointer;
     margin: 0;
+}
+
+.timer__disable.timer__play {
+    opacity: 0.25;
+    cursor: unset;
+}
+
+.timer__disable.timer__pause {
+    opacity: 0.25;
+    cursor: unset;
 }
 
 
@@ -495,6 +516,8 @@ html .clear-completed:active {
 .icon.icon-edit {
     transform: translateY(-5px);
 }
+
+
 
 /*//==================================================================*/
 .new-todo-form {
@@ -544,4 +567,11 @@ html .clear-completed:active {
     /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type='number'],
+input[type="number"]:hover,
+input[type="number"]:focus {
+    appearance: none;
+    -moz-appearance: textfield;
 }
