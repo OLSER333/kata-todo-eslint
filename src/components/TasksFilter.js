@@ -1,8 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
 
-const TasksFilter = (props) => {
-  const { curFilter, onFiltered } = props
+import { changeFilter } from '../redux/curFilterSlice'
+
+const TasksFilter = () => {
+  const curFilter = useSelector((state) => state.curFilter.curFilter)
+  const dispatch = useDispatch()
   const _filterBtns = ['all', 'active', 'completed']
 
   return (
@@ -11,7 +14,7 @@ const TasksFilter = (props) => {
         return (
           <li key={el}>
             <button
-              onClick={() => onFiltered(el)}
+              onClick={() => dispatch(changeFilter({ newFilter: el }))}
               className={curFilter === el ? 'selected' : null}
             >
               {el}
@@ -23,10 +26,3 @@ const TasksFilter = (props) => {
   )
 }
 export default TasksFilter
-TasksFilter.defaultProps = {
-  curFilter: 'all',
-}
-TasksFilter.propTypes = {
-  curFilter: PropTypes.string,
-  onFiltered: PropTypes.func,
-}

@@ -1,9 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 
 import Task from './Task'
 
-const TaskList = (props) => {
+const TaskList = () => {
+  const todos = useSelector((state) => state.toolkit.todos)
+
   function getCurClass(done, editing) {
     if (editing) return 'editing'
     else if (done) return 'completed'
@@ -12,43 +14,30 @@ const TaskList = (props) => {
 
   return (
     <ul className="todo-list">
-      {props.dataList.map((el) => {
+      {todos.map((el) => {
         const { id, done, editing, ...otherData } = el
 
         return (
           <li className={getCurClass(done, editing)} key={id}>
-            <Task
-              editing={editing}
-              onEdited={(value) => props.onEdited(id, value)}
-              toggleEditing={() => props.toggleEditing(id)}
-              onCompleted={() => props.onCompleted(id)}
-              onDeleted={() => props.onDeleted(id)}
-              id={id}
-              done={done}
-              {...otherData}
-            ></Task>
+            <Task editing={editing} id={id} done={done} {...otherData}></Task>
           </li>
         )
       })}
     </ul>
   )
 }
-TaskList.defaultProps = {
-  id: Math.round(Math.random() * Date.now()),
-  done: false,
-  dataList: [],
-  onDeleted: () => {},
-  onCompleted: () => {},
-}
-
-TaskList.propTypes = {
-  id: PropTypes.number,
-  done: PropTypes.bool,
-  dataList: PropTypes.array,
-  onDeleted: PropTypes.func,
-  onCompleted: PropTypes.func,
-  toggleEditing: PropTypes.func,
-  onEdited: PropTypes.func,
-}
 
 export default TaskList
+
+// const getFilteredData = () => {
+//   switch (curFilter) {
+//     case 'all':
+//       return todos
+//     case 'active':
+//       return todos.filter((el) => !el.done)
+//     case 'completed':
+//       return todos.filter((el) => el.done)
+//     default:
+//       return todos
+//   }
+// }

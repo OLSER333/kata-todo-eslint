@@ -1,108 +1,98 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { useDispatch } from 'react-redux'
 
-class NewTaskForm extends React.Component {
-  state = {
-    formVal: '',
-    formMin: '',
-    formSec: '',
-  }
+import { addTodo } from '../redux/todosSlice'
+const NewTaskForm = () => {
+  const dispatch = useDispatch()
+  const [formVal, setFormVal] = useState('')
+  const [formMin, setFormMin] = useState('')
+  const [formSec, setFormSec] = useState('')
 
-  getFormVal = (e) => {
+  const getFormVal = (e) => {
     e.preventDefault()
-    if (
-      this.state.formVal !== '' &&
-      this.state.formMin !== '' &&
-      this.state.formSec !== ''
-    ) {
-      const id = uuidv4()
-      const timerTime = this.state.formMin * 60000 + this.state.formSec * 1000
-      this.props.onAddItem(this.state.formVal, id, timerTime)
-      this.setState({ formVal: '', formMin: '', formSec: '' })
+    if (formVal !== '') {
+      const newItem = {
+        id: uuidv4(),
+        label: formVal,
+        initialTimerTime: formMin * 60000 + formSec * 1000,
+        done: false,
+        editing: false,
+        createTime: Date.now(),
+      }
+
+      dispatch(addTodo(newItem))
+
+      setFormVal('')
+      setFormMin('')
+      setFormSec('')
     }
   }
 
-  setStateInput = (e, inp) => {
+  const setStateInput = (e, inp) => {
     switch (inp) {
-      case 'case': {
-        this.setState({
-          formVal: e.target.value,
-        })
+      case 'label': {
+        setFormVal(e.target.value)
         break
       }
       case 'min': {
-        this.setState(() => {
-          if (String(e.target.value).length > 1)
-            return { formMin: Number(String(e.target.value).slice(0, 2)) }
-          else return { formMin: e.target.value }
-        })
+        if (String(e.target.value).length > 1)
+          setFormMin(Number(String(e.target.value).slice(0, 2)))
+        else setFormMin(e.target.value)
 
         break
       }
       case 'sec': {
-        this.setState(() => {
-          if (String(e.target.value).length > 1)
-            return { formSec: Number(String(e.target.value).slice(0, 2)) }
-          else return { formSec: e.target.value }
-        })
+        if (String(e.target.value).length > 1)
+          setFormSec(Number(String(e.target.value).slice(0, 2)))
+        else setFormSec(e.target.value)
         break
       }
     }
   }
 
-  render() {
-    return (
-      <header className="header">
-        <h1>todos</h1>
-        <form
-          onSubmit={(e) => {
-            this.getFormVal(e)
-          }}
-          className="new-todo-form"
-        >
-          <input
-            value={this.state.formVal}
-            onChange={(e) => this.setStateInput(e, 'case')}
-            className="new-todo"
-            placeholder="What needs to be done?"
-            required
-          />
-          <input
-            value={this.state.formMin}
-            onChange={(e) => this.setStateInput(e, 'min')}
-            className="new-todo-form__timer"
-            step="1"
-            min="0"
-            max="99"
-            placeholder="Min"
-            type={'number'}
-            required
-          />
-          <input
-            value={this.state.formSec}
-            onChange={(e) => this.setStateInput(e, 'sec')}
-            className="new-todo-form__timer"
-            step="1"
-            min="0"
-            max="99"
-            placeholder="Sec"
-            type={'number'}
-            required
-          />
-          <input type="submit" style={{ display: 'none' }} />
-        </form>
-      </header>
-    )
-  }
-}
-
-NewTaskForm.propTypes = {
-  onAddItem: PropTypes.func,
-}
-
-NewTaskForm.defaultProps = {
-  onAddItem: () => {},
+  return (
+    <header className="header">
+      <h1>todos</h1>
+      <form
+        onSubmit={(e) => {
+          getFormVal(e)
+        }}
+        className="new-todo-form"
+      >
+        <input
+          value={formVal}
+          onChange={(e) => setStateInput(e, 'label')}
+          className="new-todo"
+          placeholder="What needs to be done?"
+          required
+        />
+        <input
+          value={formMin}
+          onChange={(e) => setStateInput(e, 'min')}
+          className="new-todo-form__timer"
+          step="1"
+          min="0"
+          max="99"
+          placeholder="Min"
+          type={'number'}
+          // required
+        />
+        <input
+          value={formSec}
+          onChange={(e) => setStateInput(e, 'sec')}
+          className="new-todo-form__timer"
+          step="1"
+          min="0"
+          max="99"
+          placeholder="Sec"
+          type={'number'}
+          // required
+        />
+        <input type="submit" style={{ display: 'none' }} />
+      </form>
+    </header>
+  )
 }
 
 export default NewTaskForm

@@ -1,34 +1,29 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { delAllCompleted } from '../redux/todosSlice'
 
 import TasksFilter from './TasksFilter'
 
-const Footer = ({ curFilter, onDeleteCompleted, onFiltered, activeCount }) => {
+const Footer = () => {
+  const todos = useSelector((state) => state.toolkit.todos)
+
+  const getActiveCount = () => {
+    return todos.filter((e) => !e.done).length
+  }
+  const dispatch = useDispatch()
   return (
     <footer className="footer">
-      <span className="todo-count">{activeCount} items left</span>
-      <TasksFilter
-        onFiltered={(newFilter) => onFiltered(newFilter)}
-        curFilter={curFilter}
-      />
-      <button onClick={onDeleteCompleted} className="clear-completed">
+      <span className="todo-count">{getActiveCount(todos)} items left</span>
+      <TasksFilter />
+      <button
+        onClick={() => dispatch(delAllCompleted())}
+        className="clear-completed"
+      >
         Clear completed
       </button>
     </footer>
   )
-}
-Footer.defaultProps = {
-  activeCount: 0,
-  onDeleteCompleted: () => {},
-  curFilter: 'all',
-  onFiltered: () => {},
-}
-
-Footer.propTypes = {
-  activeCount: PropTypes.number,
-  onDeleteCompleted: PropTypes.func,
-  curFilter: PropTypes.string,
-  onFiltered: PropTypes.func,
 }
 
 export default Footer
