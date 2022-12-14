@@ -1,19 +1,23 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { getTime } from '../utils/utils'
+import { todoContext } from '../App'
 
 const Timer = ({ done, id }) => {
-  const initialTimerTime = useSelector((state) => {
+  const { state } = useContext(todoContext)
+
+  const getInitialTimerTime = () => {
     let needIdx = 0
-    state.toolkit.todos.forEach((el, idx) => {
+    state.todos.forEach((el, idx) => {
       if (el.id === id) {
         needIdx = idx
       }
     })
-    return state.toolkit.todos[needIdx].initialTimerTime
-  })
+    return state.todos[needIdx].initialTimerTime
+  }
+
+  const initialTimerTime = getInitialTimerTime()
 
   const timerTime = useRef(initialTimerTime)
   const [timerView, setTimerView] = useState(timerTime.current)

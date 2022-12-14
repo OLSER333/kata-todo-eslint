@@ -1,10 +1,12 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useContext } from 'react'
+
+import { todoContext } from '../App'
 
 import Task from './Task'
 
 const TaskList = () => {
-  const todos = useSelector((state) => state.toolkit.todos)
+  const { state } = useContext(todoContext)
+  const todos = state.todos
 
   function getCurClass(done, editing) {
     if (editing) return 'editing'
@@ -28,16 +30,3 @@ const TaskList = () => {
 }
 
 export default TaskList
-
-// const getFilteredData = () => {
-//   switch (curFilter) {
-//     case 'all':
-//       return todos
-//     case 'active':
-//       return todos.filter((el) => !el.done)
-//     case 'completed':
-//       return todos.filter((el) => el.done)
-//     default:
-//       return todos
-//   }
-// }

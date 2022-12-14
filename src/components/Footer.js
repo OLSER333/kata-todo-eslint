@@ -1,23 +1,22 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useContext } from 'react'
 
-import { delAllCompleted } from '../redux/todosSlice'
+import { todoContext } from '../App'
 
 import TasksFilter from './TasksFilter'
 
 const Footer = () => {
-  const todos = useSelector((state) => state.toolkit.todos)
+  const { state, dispatch } = useContext(todoContext)
+  const todos = state.todos
 
   const getActiveCount = () => {
     return todos.filter((e) => !e.done).length
   }
-  const dispatch = useDispatch()
   return (
     <footer className="footer">
       <span className="todo-count">{getActiveCount(todos)} items left</span>
       <TasksFilter />
       <button
-        onClick={() => dispatch(delAllCompleted())}
+        onClick={() => dispatch({ type: 'delAllCompleted' })}
         className="clear-completed"
       >
         Clear completed

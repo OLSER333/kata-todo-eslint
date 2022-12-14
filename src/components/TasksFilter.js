@@ -1,11 +1,11 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useContext } from 'react'
 
-import { changeFilter } from '../redux/curFilterSlice'
+import { todoContext } from '../App'
 
 const TasksFilter = () => {
-  const curFilter = useSelector((state) => state.curFilter.curFilter)
-  const dispatch = useDispatch()
+  const { state, dispatch } = useContext(todoContext)
+
+  const curFilter = state.curFilter
   const _filterBtns = ['all', 'active', 'completed']
 
   return (
@@ -14,7 +14,9 @@ const TasksFilter = () => {
         return (
           <li key={el}>
             <button
-              onClick={() => dispatch(changeFilter({ newFilter: el }))}
+              onClick={() =>
+                dispatch({ type: 'changeFilter', payload: { newFilter: el } })
+              }
               className={curFilter === el ? 'selected' : null}
             >
               {el}

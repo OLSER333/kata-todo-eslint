@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import { useDispatch } from 'react-redux'
 
-import { addTodo } from '../redux/todosSlice'
+import { todoContext } from '../App'
 const NewTaskForm = () => {
-  const dispatch = useDispatch()
+  const { dispatch } = useContext(todoContext)
   const [formVal, setFormVal] = useState('')
   const [formMin, setFormMin] = useState('')
   const [formSec, setFormSec] = useState('')
@@ -21,7 +20,10 @@ const NewTaskForm = () => {
         createTime: Date.now(),
       }
 
-      dispatch(addTodo(newItem))
+      dispatch({
+        type: 'addTodo',
+        payload: newItem,
+      })
 
       setFormVal('')
       setFormMin('')
@@ -87,7 +89,6 @@ const NewTaskForm = () => {
           max="99"
           placeholder="Sec"
           type={'number'}
-          // required
         />
         <input type="submit" style={{ display: 'none' }} />
       </form>

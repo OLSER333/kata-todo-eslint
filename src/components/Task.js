@@ -1,21 +1,27 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import { formatDistanceToNow } from 'date-fns'
-import { useDispatch, useSelector } from 'react-redux'
 
-import { delTodo, setNewValue, toggleValue } from '../redux/todosSlice'
+import { todoContext } from '../App'
 
 import Timer from './Timer'
 const Task = ({ label, done, id, createTime }) => {
-  const dispatch = useDispatch()
-  const curFilter = useSelector((state) => state.curFilter.curFilter)
+  const { state, dispatch } = useContext(todoContext)
+
+  const curFilter = state.curFilter
   const [labelValue, setLabelValue] = useState(label)
 
   const changeLabel = (e) => {
     e.preventDefault()
     if (labelValue !== '') {
-      dispatch(setNewValue({ id, prop: 'label', newVal: labelValue }))
-      dispatch(toggleValue({ id, prop: 'editing' }))
+      dispatch({
+        type: 'setNewValue',
+        payload: { id, prop: 'label', newVal: labelValue },
+      })
+      dispatch({
+        type: 'toggleValue',
+        payload: { id, prop: 'editing' },
+      })
     }
   }
 
@@ -35,14 +41,18 @@ const Task = ({ label, done, id, createTime }) => {
       </form>
       <div className="view">
         <input
-          onChange={() => dispatch(toggleValue({ id, prop: 'done' }))}
+          onChange={() =>
+            dispatch({ type: 'toggleValue', payload: { id, prop: 'done' } })
+          }
           checked={done}
           className="toggle"
           type="checkbox"
         />
         <label className="view-label">
           <span
-            onClick={() => dispatch(toggleValue({ id, prop: 'done' }))}
+            onClick={() =>
+              dispatch({ type: 'toggleValue', payload: { id, prop: 'done' } })
+            }
             className="description"
           >
             {label}
@@ -52,11 +62,16 @@ const Task = ({ label, done, id, createTime }) => {
         <span className="created">{formatDistanceToNow(createTime)}</span>
         <div className="view-buttons">
           <button
-            onClick={() => dispatch(toggleValue({ id, prop: 'editing' }))}
+            onClick={() =>
+              dispatch({
+                type: 'toggleValue',
+                payload: { id, prop: 'editing' },
+              })
+            }
             className="icon icon-edit"
           ></button>
           <button
-            onClick={() => dispatch(delTodo({ id }))}
+            onClick={() => dispatch({ type: 'delTodo', payload: { id } })}
             className="icon icon-destroy"
           ></button>
         </div>
